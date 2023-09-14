@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Time Series Forecasting with Prophet</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" type="text/css">
+	<link rel="stylesheet" href="" type="text/css">
+	<style>
+		table, th, td {
+		  border: 1px solid black;
+		  border-collapse: collapse;
+		  padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	{% if uploaded %}
+		<h1>Upload Successful</h1>
+		<h1>Sales Forecasting</h1>
+		<p>Below are the forecasted values for the next 77 periods:</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Forecast</th>
+					<th>Lower Bound</th>
+					<th>Upper Bound</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for index, row in forecast.iterrows() %}
+				<tr>
+					<td>{{ row['ds'] }}</td>
+					<td>{{ row['yhat'] }}</td>
+					<td>{{ row['yhat_lower'] }}</td>
+					<td>{{ row['yhat_upper'] }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<h1>Upload CSV File</h1>
+		<form action="/upload" method="post" enctype="multipart/form-data">
+			<input type="file" name="file"><br><br>
+			<input type="submit" value="Upload">
+		</form>
+	{% endif %}
+</body>
+</html>
